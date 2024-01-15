@@ -57,7 +57,7 @@ class UpdateButton(disnake.ui.View):
             url="https://cdn.discordapp.com/avatars/944655646157066280/95d8bee5622528bc2043982ace073924.png?size=256"
         )
         embed.add_field(name="Chunks:", value="number of chunks", inline=False)
-        embed.set_image(file=disnake.File("bigchunks.png"))
+        embed.set_image(file=disnake.File("./generated/bigchunks.png"))
         embed.set_footer(text="sent at")
         await interaction.followup.send(embed=embed)
         # self.stop()
@@ -77,7 +77,7 @@ class UpdateButton(disnake.ui.View):
         embed.set_thumbnail(
             url="https://cdn.discordapp.com/avatars/944655646157066280/95d8bee5622528bc2043982ace073924.png?size=256"
         )
-        embed.set_image(file=disnake.File("plot.png"))
+        embed.set_image(file=disnake.File("./generated/plot.png"))
         embed.set_footer(text="sent at")
         await interaction.followup.send(embed=embed)
         # self.stop()

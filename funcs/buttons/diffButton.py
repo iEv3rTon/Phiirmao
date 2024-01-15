@@ -5,13 +5,14 @@ from disnake.ext import commands
 
 
 class DiffButton(disnake.ui.View):
-    def __init__(self, url, filePath, x, y, canvas):
+    def __init__(self, url, filePath, x, y, canvas, pixelgame):
         super().__init__()
         self.filePath = filePath
         self.url = url
         self.x = x
         self.y = y
         self.canvas = canvas
+        self.pixelgame = pixelgame
         # Link buttons cannot be made with the decorator
         # Therefore we have to manually create one.
         # We add the quoted url to the button, and add the button to the view.
@@ -34,6 +35,7 @@ class DiffButton(disnake.ui.View):
             url="https://cdn.discordapp.com/avatars/944655646157066280/95d8bee5622528bc2043982ace073924.png?size=256"
         )
         embed.add_field(name=f"X: {self.x}. Y: {self.y}", value=f"canvas: {self.canvas}", inline=False)
+        embed.add_field(name=f"Game", value=f"{self.pixelgame}", inline=False)
         embed.set_footer(text="Last time changed:")
         await interaction.followup.send(embed=embed)
 
@@ -61,7 +63,7 @@ class DiffButton(disnake.ui.View):
             url="https://cdn.discordapp.com/avatars/944655646157066280/95d8bee5622528bc2043982ace073924.png?size=256"
         )
         embed.add_field(name="Chunks:", value=".", inline=False)
-        embed.set_image(file=disnake.File("bigchunks.png"))
+        embed.set_image(file=disnake.File("./generated/bigchunks.png"))
         embed.set_footer(text=".")
         await interaction.followup.send(embed=embed)
         # self.stop()
@@ -78,6 +80,25 @@ class DiffButton(disnake.ui.View):
             name="Data from selected template.",
             icon_url="https://imgs.search.brave.com/fmspp-a8_pNrkOHAPi-HMfOFc_UfS0Pyc2lkHN5B8qQ/rs:fit:256:256:1/g:ce/aHR0cHM6Ly9leHRl/cm5hbC1wcmV2aWV3/LnJlZGQuaXQvUVhp/ejlLT0o1ODJFUlNw/MjNOWHVpSldzNjVS/dVRNa2JLWU1vbGx1/emNHVS5qcGc_YXV0/bz13ZWJwJnM9Zjdk/NjY0ZTJmNDM3OGI2/YjM2ZmFkMmY3M2U0/OTA1Y2U0MzU4NmVl/ZA",
         )
-        embed.set_image(file=disnake.File("plot.png"))
+        embed.set_image(file=disnake.File("./generated/plot.png"))
         await interaction.followup.send(embed=embed)
         # self.stop()
+
+""" @disnake.ui.button(emoji="💀",label="Erros", style=disnake.ButtonStyle.green, disabled=False)
+    async def erros(self, button: disnake.ui.Button, interaction: disnake.MessageInteraction):
+        self.erros.disabled = True
+        await interaction.response.edit_message(view=self)
+        embed = disnake.Embed(color=0xFF0000)
+        embed.set_author(
+            name="Template erros",
+            icon_url="https://imgs.search.brave.com/fmspp-a8_pNrkOHAPi-HMfOFc_UfS0Pyc2lkHN5B8qQ/rs:fit:256:256:1/g:ce/aHR0cHM6Ly9leHRl/cm5hbC1wcmV2aWV3/LnJlZGQuaXQvUVhp/ejlLT0o1ODJFUlNw/MjNOWHVpSldzNjVS/dVRNa2JLWU1vbGx1/emNHVS5qcGc_YXV0/bz13ZWJwJnM9Zjdk/NjY0ZTJmNDM3OGI2/YjM2ZmFkMmY3M2U0/OTA1Y2U0MzU4NmVl/ZA",
+        )
+        embed.set_thumbnail(
+            url="https://cdn.discordapp.com/avatars/944655646157066280/95d8bee5622528bc2043982ace073924.png?size=256"
+        )
+        embed.add_field(name="Erros:", value=".", inline=False)
+        embed.set_image(file=disnake.File("./generated/erros.png"))
+        embed.set_footer(text=".")
+        await interaction.followup.send(embed=embed)
+        # self.stop()
+"""
