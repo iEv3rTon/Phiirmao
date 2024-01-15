@@ -14,6 +14,10 @@ import disnake
 from disnake import TextChannel, Webhook
 from disnake.ext import commands,tasks
 
+from configparser import ConfigParser
+config = ConfigParser()
+config.read(r'config.ini')
+
 async def autoscan(message):
     if not message:
         return
@@ -108,7 +112,7 @@ async def print_welcome_message(guild):
         print("[CONSOLE] Could not print welcome message: no default channel found")
       
 
-wh_log = os.environ['wh_log']
+wh_log = config['BOTCONFIG']['log']#os.environ['wh_log']
 async def log_wk(msg):
     async with aiohttp.ClientSession() as session:
         webhook = Webhook.from_url(wh_log, session=session)

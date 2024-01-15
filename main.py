@@ -23,7 +23,7 @@ config.read(r'config.ini')
 
 try:
     bot_name = config['BOTCONFIG']['name']
-    token = os.environ['TOKEN']#config['BOTCONFIG']['token']
+    token = config['BOTCONFIG']['token'] #os.environ['TOKEN']#
     auth_id = config['BOTCONFIG']['auth_id']
     prefix = config['BOTCONFIG']['prefix']
 except:
