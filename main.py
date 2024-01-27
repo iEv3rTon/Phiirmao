@@ -23,7 +23,7 @@ config.read(r'config.ini')
 
 try:
     bot_name = config['BOTCONFIG']['name']
-    token = config['BOTCONFIG']['token'] #os.environ['TOKEN']#
+    token = os.environ['TOKEN'] #config['BOTCONFIG']['token'] #os.environ['TOKEN']#
     auth_id = config['BOTCONFIG']['auth_id']
     prefix = config['BOTCONFIG']['prefix']
 except:
@@ -161,6 +161,6 @@ if __name__ == '__main__':
       print(e)
       #log_wk(e)
       time.sleep(15)
-      sys("kill 1")
+      #sys("kill 1")
       time.sleep(15)
   
