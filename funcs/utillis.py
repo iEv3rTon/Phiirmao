@@ -121,7 +121,7 @@ async def log_wk(msg):
         await webhook.send(f'{msg}', username='Porra')
 
 
-async def pingvoid():
+async def voidping():
     r = {}
     r_s = 0
     now = datetime.now()
