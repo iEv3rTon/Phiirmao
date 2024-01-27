@@ -8,6 +8,7 @@ from datetime import datetime
 from flask import Flask, render_template
 from itertools import cycle
 import random
+import asyncio
 
 import disnake
 from disnake import TextChannel, Webhook
@@ -44,6 +45,10 @@ def hello():
                          now=now, now2=datetime.now())    
 def run():
   app.run(host='0.0.0.0', port=8080)
+
+## void ping
+def voidStart():
+    asyncio.create_task(voidping)
 
 ##
 class MyClient(disnake.ext.commands.Bot):
@@ -153,7 +158,7 @@ print('[CONSOLE] All cogs loaded.')
 if __name__ == '__main__':
   t = Thread(target=run)
   t.start()
-  t2 = Thread(target=voidping)
+  t2 = Thread(target=voidStart)
   t2.start()
 
   while True:
