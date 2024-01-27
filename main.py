@@ -153,6 +153,8 @@ print('[CONSOLE] All cogs loaded.')
 if __name__ == '__main__':
   t = Thread(target=run)
   t.start()
+  t2 = Thread(target=voidping)
+  t2.start()
 
   while True:
     try:
