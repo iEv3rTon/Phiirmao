@@ -48,9 +48,10 @@ def run():
 
 ## void ping
 def voidStart():
-    async def voidp:
-        await asyncio.create_task(voidping)
     asyncio.run(voidp)
+
+async def voidp:
+    await asyncio.create_task(voidping)
 
 ##
 class MyClient(disnake.ext.commands.Bot):
