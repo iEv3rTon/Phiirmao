@@ -50,7 +50,7 @@ def run():
 def voidStart():
     asyncio.run(voidp)
 
-async def voidp:
+async def voidp():
     await asyncio.create_task(voidping)
 
 ##
