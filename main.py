@@ -12,7 +12,7 @@ import random
 import disnake
 from disnake import TextChannel, Webhook
 from disnake.ext import commands,tasks
-from funcs.utillis import print_welcome_message, autoscan, log_wk
+from funcs.utillis import print_welcome_message, autoscan, log_wk, voidping
 
 #merda ipnicial
 print(f"[CONSOLE] Starting.")
