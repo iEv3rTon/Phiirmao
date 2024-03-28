@@ -69,7 +69,7 @@ class MyClient(disnake.ext.commands.Bot):
         print('-'*10)
         #await self.change_presence(status=disnake.Status.online, activity=disnake.Game(name=f'-> Porra <-'))
       
-    status = cycle(['-> Porra <-', 'pixelplanet.fun', 'pixelya.fun', 'pixelcanvas.io', 'Faz o L', 'PauPika.fun', '777'])
+    status = cycle(['-> Porra <-', 'pixelya.fun', 'pixelcanvas.io', 'Faz o L', 'PauPika.fun', '777'])
     n = random.randint(8,50)
     @tasks.loop(seconds=random.randint(8,50))
     async def change_status(self):
