@@ -15,7 +15,7 @@ from disnake.ext import commands,tasks
 from funcs.utillis import print_welcome_message, autoscan, log_wk
 import asyncio
 import requests as req
-from funcs.planet import pixelya_funcs 
+from funcs.planet import pixelya_funcs, Pixelplanet
 
 #merda ipnicial
 print(f"[CONSOLE] Starting.")
@@ -77,11 +77,11 @@ class MyClient(disnake.ext.commands.Bot):
       global now2
       
       now2=datetime.now()
-      c = self.get_channel(1137551755744399471)
+      #c = self.get_channel(1137551755744399471)
       #await c.send(f"change {now2-now}")
       #print('change ', now2-now)
-      
-      await self.change_presence(status=disnake.Status.online, activity=disnake.Game(next(self.status)))
+      onl = await Pixelplanet.get_online(True)
+      await self.change_presence(status=disnake.Status.online, activity=disnake.Game(f"Pixelya.fun: {onl}"))
       
     #
     # Faction Ranking update

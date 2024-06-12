@@ -13,12 +13,11 @@ import disnake
 #from funcs.utillis import log_wk
 
 canvas = {
-    0: "🌎· Earth",
-    1: "🌜· Moon",
-    2: "🧱· 3D Canvas",
-    3: "🦠· Coronavirus",
-    7: "🔲· 1bit",
-    8: "🏆· Top10",
+    0: "🌎 · World",
+    1: "🎨 · Graffiti",
+    2: "⚽ · Football",
+    4: "🌍 · Europe",
+    99: "users "
 }
 
 canvas_convert = {"e": "0", "m": "1", "1": "7"}
@@ -37,8 +36,10 @@ class TemplateSt:
         self.thispc = self.thispc + 20
 
 class Pixelplanet:
-    async def get_online() -> list:
-        ws = websocket.create_connection("wss://pixelplanet.fun/ws")
+    async def get_online(clean) -> list:
+        ws = websocket.create_connection("wss://pixelya.fun/ws", 
+            header={'origin': 'https://pixelya.fun'},
+        )
 
         while True:
             data = ws.recv()
@@ -52,20 +53,32 @@ class Pixelplanet:
                         first = off
                         off -= 1
                         second = off
+                        if int(data[second]) == 99:
+                            continue
                         online.insert(
                             int(data[second]),
                             f"{canvas[int(data[second])]}: {str(int((data[first] << 8) | data[first + 1]))}",
                         )
-                    online.insert(0, f"🌎 **Total**: {str((data[1] << 8) | data[2])}\n")
-
+                    if clean:
+                        online.insert(0, f"Online: {str((data[1] << 8) | data[2])}\n")
+                    else:
+                        online.insert(0, f"🌎 **Total**: {str((data[1] << 8) | data[2])}\n")
+                        
                     break
 
         ws.close()
+
+        if clean:
+            text = ""
+            for i in online:
+                text += i + "\n"
+            online = text
+
         return online
 
     async def get_daily() -> list:
         players = []
-        data = httpx.get("https://pixelplanet.fun/ranking").json()
+        data = httpx.get("https://pixelya.fun/ranking").json()
         for i in range(100):
             player = data["dailyRanking"][i]
             players.append(player)
@@ -74,7 +87,7 @@ class Pixelplanet:
 
     async def get_ranking() -> list:
         players = []
-        data = httpx.get("https://pixelplanet.fun/ranking").json()
+        data = httpx.get("https://pixelya.fun/ranking").json()
         for i in range(100):
             player = data["ranking"][i]
             players.append(player)
