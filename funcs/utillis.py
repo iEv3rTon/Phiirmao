@@ -114,7 +114,7 @@ async def print_welcome_message(guild):
         print("[CONSOLE] Could not print welcome message: no default channel found")
       
 
-wh_log = os.environ['wh_log'] #config['BOTCONFIG']['log']#
+wh_log = config['BOTCONFIG']['log']#
 async def log_wk(msg):
     async with aiohttp.ClientSession() as session:
         webhook = Webhook.from_url(wh_log, session=session)

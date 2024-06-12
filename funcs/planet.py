@@ -81,6 +81,8 @@ class Pixelplanet:
 
         return players
 
+
+
 class run_preview:
     async def compareImg(message, pixelgame, canvas, x, y, zoom,  diff = None):
         channel = message.channel
@@ -478,3 +480,191 @@ class PlanetHistory:
     #             duration=80,
     #             loop=0,
     #         )
+
+
+
+##############
+
+class pixelya_funcs:
+    async def get_online() -> list:
+        ws = websocket.create_connection("wss://pixelya.fun/ws")
+
+        while True:
+            data = ws.recv()
+            if type(data) != str:
+                online = []
+                opcode = data[0]
+                if opcode == 0xA7:
+                    off = len(data)
+                    while off > 3:
+                        off -= 2
+                        first = off
+                        off -= 1
+                        second = off
+                        online.insert(
+                            int(data[second]),
+                            f"{canvas[int(data[second])]}: {str(int((data[first] << 8) | data[first + 1]))}",
+                        )
+                    online.insert(0, f"🌎 **Total**: {str((data[1] << 8) | data[2])}\n")
+
+                    break
+
+        ws.close()
+        return online
+
+    async def get_daily() -> list:
+        players = []
+        data = httpx.get("https://pixelplanet.fun/ranking").json()
+        for i in range(100):
+            player = data["dailyRanking"][i]
+            players.append(player)
+
+        return players
+
+    async def get_ranking() -> list:
+        players = []
+        data = httpx.get("https://pixelplanet.fun/ranking").json()
+        for i in range(100):
+            player = data["ranking"][i]
+            players.append(player)
+
+        return players
+    
+    async def get_fac_ranking() -> list:
+        players = []
+        data = httpx.get("https://pixelya.fun/ranking").json()
+        data_len = len(data["rankingFactions"])
+        for i in range(data_len):
+            player = data["rankingFactions"][i]
+            players.append(player)        
+        return players
+    
+
+    async def get_profile_by_did(did):
+        res = httpx.post('https://pixelya.fun/api/userinfobydid/', 
+            headers={
+                'origin': 'https://pixelya.fun',
+                'Content-type': 'application/json; charset=utf-8'
+            },
+            json={
+                "did": did
+            }
+        )
+        if res.status_code == 200:
+            user = res.json()
+            #print(user['userinfo']['id'])
+            return [200, user['userinfo']]
+        else:
+            print(res.content)
+            return [400, res.content]
+
+    
+    async def get_profile_by_id(id):
+        res = httpx.post('https://pixelya.fun/api/userinfo/', 
+            headers={
+                'origin': 'https://pixelya.fun',
+                'Content-type': 'application/json; charset=utf-8'
+            },
+            json={
+                "id": id
+            }
+        )
+        if res.status_code == 200:
+            user = res.json()
+            #print(user['userinfo']['id'])
+            return [200, user['userinfo']]
+        else:
+            print(res.content)
+            return [400, res.content]
+
+        return
+    
+    async def get_patent(id):
+        name = "0+ Trainee"
+
+        match id:
+            case 0:
+                name = "GameMaster"
+            case 1:
+                name = "0+ Trainee"
+            case 2:
+                name = "2.000+ Senior Trainee"
+            case 3:
+                name = "5.000+ Private"
+            case 4:
+                name = "9.000+ Corporal"
+            case 5:    
+                name = '14.000+ Sergeant'
+            case 6:
+                # 3° sargento
+                name = '21.000+ Staff Sgt. Grade 1'
+            case 7:
+                name = '30.000+ Staff Sgt. Grade 2'
+            case 8:
+                name = '41.000+ Staff Sgt. Grade 3'
+                #2° sargento
+            case 9:
+                name = '50.000+ Sgt. 1st Class Grade 1'
+            case 10:
+                name = '65.000+ Sgt. 1st Class Grade 2'
+            case 11:
+                name = '85.000+ Sgt. 1st Class Grade 3'
+            case 12:
+                name = '100.000+ Sgt. 1st Class Grade 4'
+                #1° sargento
+            case 13:
+                name = '200.000+ Master Sgt. Grade 1'
+            case 14:
+                name = '300.000+ Master Sgt. Grade 2'
+            case 15:
+                name = '400.000+ Master Sgt. Grade 3'
+            case 16:
+                name = '500.000+ Master Sgt. Grade 4'
+            case 17:
+                name = '600.000+ Master Sgt. Grade 5'
+                #2° Tenente
+            case 18:
+                name = '700.000+ 2nd Lt. Grade 1'
+            case 19:
+                name = '800.000+ 2nd Lt. Grade 2'
+            case 20:
+                name = '900.000+ 2nd Lt. Grade 3'
+            case 21:
+                name = '1.000.000+ 2nd Lt. Grade 4'
+                #1°tenente
+            case 22:
+                name = '1.250.000+ 1st Lt. Grade 1'
+            case 23:
+                name = '1.500.000+ 1st Lt. Grade 2'
+            case 24:
+                name = '1.750.000+ 1st Lt. Grade 3'
+                #capitao
+            case 25:
+                name = '2.000.000+ Capt. Grade'
+                #major
+            case 26:
+                name = '3.000.000+ Major Grade'
+                #Tenente Coronel
+            case 27:
+                name = '4.000.000+ Lt. Col. Grade'
+                #Capitao
+            case 28:
+                name = '5.000.000+ Col. Grade'
+                # cononel
+            case 29:
+                name = '6.000.000+ Brigadier'
+                #general
+            case 30:
+                name = '7.000.000+ Major General'
+            case 31:
+                name = '8.000.000+ Lt. General'
+                #marechal
+            case 32:
+                name = '9.000.000+ General'
+                #heroi
+            case 33:
+                name = '10.000.000+ Commander'
+            case _:
+                name = "0+ Trainee"
+
+        return name
